@@ -1,0 +1,10 @@
+spring.application:
+  name: oris_spring
+
+logging:
+  enabled: true
+
+info:
+  app:
+    name: Learn Spring
+    version: 0.2.0
