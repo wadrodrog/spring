@@ -3,6 +3,7 @@ package ru.itis.spring.service;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.itis.spring.persistence.entity.Status;
 import ru.itis.spring.persistence.entity.UserEntity;
 import ru.itis.spring.persistence.repository.UserRepository;
 
@@ -22,6 +23,7 @@ public class UserService {
         UserEntity user = UserEntity.builder()
                 .name(name)
                 .birthDate(birthDate)
+                .status(Status.REGISTERED)
                 .build();
 
         repository.save(user);

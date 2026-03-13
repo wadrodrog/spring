@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
+import ru.itis.spring.persistence.entity.Status;
 import ru.itis.spring.persistence.entity.UserEntity;
 import ru.itis.spring.persistence.repository.UserRepository;
 
@@ -22,10 +23,11 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public void save(UserEntity user) {
-        String query = "INSERT INTO account (name, birth_date) VALUES (:name, :birth_date)";
+        String query = "INSERT INTO account (name, birth_date, status) VALUES (:name, :birth_date, :status)";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", user.getName())
-                .addValue("birth_date", user.getBirthDate());
+                .addValue("birth_date", user.getBirthDate())
+                .addValue("status", user.getStatus().name());
         jdbcTemplate.update(query, params);
     }
 
@@ -50,10 +52,11 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public void update(UserEntity user) {
-        String query = "UPDATE account SET name = :name, birth_date = :birth_date WHERE id = :id";
+        String query = "UPDATE account SET name = :name, birth_date = :birth_date, status = :status WHERE id = :id";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("name", user.getName())
                 .addValue("birth_date", user.getBirthDate())
+                .addValue("status", user.getStatus().name())
                 .addValue("id", user.getId());
         jdbcTemplate.update(query, params);
     }
@@ -87,6 +90,7 @@ public class JdbcUserRepository implements UserRepository {
         entity.setId(rs.getLong("id"));
         entity.setName(rs.getString("name"));
         entity.setBirthDate(LocalDate.parse(rs.getString("birth_date")));
+        entity.setStatus(Status.valueOf(rs.getString("status")));
         return entity;
     };
 }

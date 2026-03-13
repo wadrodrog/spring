@@ -13,4 +13,5 @@ public class UserEntity {
     private Long id;
     private String name;
     private LocalDate birthDate;
+    private Status status;
 }
