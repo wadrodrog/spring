@@ -2,22 +2,16 @@ package ru.itis.spring.service;
 
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.itis.spring.persistence.entity.UserEntity;
-import ru.itis.spring.persistence.repository.InMemoryRepository;
+import ru.itis.spring.persistence.repository.UserRepository;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final InMemoryRepository repository;
-
-    // WARNING: это антипаттерн, круто, когда service является stateless!
-    @Value("${logging.enabled}")
-    private Boolean isLoggingEnabled;
+    private final UserRepository repository;
 
     public void save(String name, LocalDate birthDate) {
         if (StringUtils.isBlank(name)) {
@@ -30,13 +24,9 @@ public class UserService {
                 .build();
 
         repository.save(user);
-
-        if (isLoggingEnabled) {
-            System.out.println("user " + user + " saved");
-        }
     }
 
-    public UserEntity get(UUID id) {
-        return repository.get(id);
+    public UserEntity get(long id) {
+        return repository.getById(id).orElse(null);
     }
 }

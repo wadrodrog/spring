@@ -14,3 +14,11 @@ management:
     web:
       exposure:
         include: "*"
+
+spring:
+  application: Learn Spring
+  datasource:
+    url: 'jdbc:postgresql://localhost:5432/spring'
+    username: postgres
+    password: postgres
+    driverClassName: org.postgresql.Driver
