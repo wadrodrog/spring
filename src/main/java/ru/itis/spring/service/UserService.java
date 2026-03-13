@@ -7,6 +7,7 @@ import ru.itis.spring.persistence.entity.UserEntity;
 import ru.itis.spring.persistence.repository.UserRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,5 +29,21 @@ public class UserService {
 
     public UserEntity get(long id) {
         return repository.getById(id).orElse(null);
+    }
+
+    public List<UserEntity> getAll() {
+        return repository.getAll();
+    }
+
+    public UserEntity delete(long id) {
+        UserEntity user = repository.getById(id).orElse(null);
+        if (repository.deleteById(id)) {
+            return user;
+        }
+        return null;
+    }
+
+    public void deleteAll() {
+        repository.deleteAll();
     }
 }

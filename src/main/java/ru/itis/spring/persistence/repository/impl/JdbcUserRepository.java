@@ -1,6 +1,7 @@
 package ru.itis.spring.persistence.repository.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -59,12 +60,26 @@ public class JdbcUserRepository implements UserRepository {
 
     @Override
     public boolean deleteById(Long id) {
-        return false;
+        String query = "DELETE FROM account WHERE id = :id";
+        MapSqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id);
+        try {
+            jdbcTemplate.update(query, params);
+        } catch (DataAccessException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void deleteAll() {
-
+        String query = "DELETE FROM account";
+        try {
+            jdbcTemplate.query(query, userMapper);
+        } catch (DataAccessException e) {
+            System.err.println(e.getMessage());
+        }
     }
 
     private final RowMapper<UserEntity> userMapper = (rs, rowNumber) -> {
