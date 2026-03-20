@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itis.spring.persistence.entity.Status;
 import ru.itis.spring.persistence.entity.UserEntity;
+import ru.itis.spring.persistence.repository.JpaUserRepository;
 import ru.itis.spring.persistence.repository.UserRepository;
+import ru.itis.spring.persistence.repository.impl.EntityManagerUserRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +15,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    private final UserRepository repository;
+    private final UserRepository jdbcRepository;
+    private final JpaUserRepository jpaRepository;
+    private final EntityManagerUserRepository emRepository;
 
     public void save(String name, LocalDate birthDate) {
         if (StringUtils.isBlank(name)) {
@@ -26,26 +30,26 @@ public class UserService {
                 .status(Status.REGISTERED)
                 .build();
 
-        repository.save(user);
+        emRepository.save(user);
     }
 
     public UserEntity get(long id) {
-        return repository.getById(id).orElse(null);
+        return emRepository.getById(id);
     }
 
     public List<UserEntity> getAll() {
-        return repository.getAll();
+        return emRepository.getAll();
     }
 
     public UserEntity delete(long id) {
-        UserEntity user = repository.getById(id).orElse(null);
-        if (repository.deleteById(id)) {
-            return user;
+        UserEntity user = emRepository.getById(id);
+        if (user != null) {
+            emRepository.delete(user);
         }
-        return null;
+        return user;
     }
 
     public void deleteAll() {
-        repository.deleteAll();
+        //emRepository.deleteAll();
     }
 }
