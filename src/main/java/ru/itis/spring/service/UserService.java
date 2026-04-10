@@ -15,6 +15,24 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
+    public void save(String name, String password) {
+        if (StringUtils.isBlank(name) || StringUtils.isBlank(password)) {
+            throw new IllegalArgumentException("Name must not be null or empty");
+        }
+
+        if (userRepository.findByName(name).isPresent()) {
+            throw new IllegalArgumentException("User already registered");
+        }
+
+        UserEntity user = UserEntity.builder()
+                .name(name)
+                .password(password)
+                .role(UserEntity.RoleEnum.USER)
+                .build();
+
+        userRepository.save(user);
+    }
+
     public void save(String name, LocalDate birthDate) {
         if (StringUtils.isBlank(name)) {
             throw new IllegalArgumentException("Name must not be null or empty");

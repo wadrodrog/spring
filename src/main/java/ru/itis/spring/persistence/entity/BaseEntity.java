@@ -4,7 +4,6 @@ import jakarta.annotation.PreDestroy;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -17,15 +16,23 @@ public abstract class BaseEntity {
     private Long id;
 
     @Column(nullable = false)
-    @ColumnDefault("now()")
     LocalDateTime createdAt;
 
     @Column(nullable = false)
-    @ColumnDefault("now()")
     LocalDateTime lastActedAt;
 
     @Column
     LocalDateTime deletedAt;
+
+    @PrePersist
+    public void prePersist() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (lastActedAt == null) {
+            lastActedAt = LocalDateTime.now();
+        }
+    }
 
     @PreUpdate
     protected void preUpdate() {

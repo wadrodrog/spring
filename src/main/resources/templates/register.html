@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8">
+        <title>Register</title>
+    </head>
+    <body>
+        <h1>Register</h1>
+        <form method="post" action="/register">
+            <input type="hidden" />
+            <div>
+                <label>
+                    Имя пользователя:<br>
+                    <input type="username" name="username" maxlength="255" pattern="^[a-zA-Z0-9_]{1,255}$" required />
+                </label>
+            </div>
+            <div>
+                <label>
+                    Пароль:<br>
+                    <input type="password" name="password" id="password" maxlength="255" required />
+                </label>
+            </div>
+            <div>
+                <input type="submit" id="submit" value="Зарегистрироваться">
+            </div>
+        </form>
+    </body>
+</html>
