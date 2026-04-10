@@ -12,15 +12,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "account")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class UserEntity extends BaseEntity {
     private String name;
-
+    private String password;
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    private RoleEnum role;
+    private StateEnum state;
+
+    public enum RoleEnum {
+        USER, ADMIN
+    }
+
+    public enum StateEnum {
+        ACTIVE, BANNED
+    }
 }

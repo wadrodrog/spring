@@ -5,16 +5,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.itis.spring.persistence.entity.PostEntity;
 import ru.itis.spring.persistence.entity.UserEntity;
-import ru.itis.spring.persistence.repository.JpaPostRepository;
-import ru.itis.spring.persistence.repository.JpaUserRepository;
+import ru.itis.spring.persistence.repository.PostRepository;
+import ru.itis.spring.persistence.repository.UserRepository;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private final JpaPostRepository postRepository;
-    private final JpaUserRepository userRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     public void save(String title, Long authorId) {
         if (StringUtils.isBlank(title)) {

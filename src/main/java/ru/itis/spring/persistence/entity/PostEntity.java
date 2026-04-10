@@ -10,11 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "post")
-public class PostEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class PostEntity extends BaseEntity {
     private String title;
 
     @ManyToOne

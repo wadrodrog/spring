@@ -5,6 +5,4 @@ import org.springframework.stereotype.Repository;
 import ru.itis.spring.persistence.entity.PostEntity;
 
 @Repository
-public interface JpaPostRepository extends JpaRepository<PostEntity, Long> {
-
-}
+public interface PostRepository extends JpaRepository<PostEntity, Long> {}
